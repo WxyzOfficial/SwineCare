@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SwineCare — Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <!-- Chart.js and jsPDF from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="app-page">
+  <aside class="sidebar">
+    <div class="brand small">SwineCare</div>
+    <nav>
+      <a href="#dash" class="nav-link active">Dashboard</a>
+      <a href="#pigs" class="nav-link">Pigs</a>
+      <a href="#scheduler" class="nav-link">Scheduler</a>
+      <a href="#shower" class="nav-link">Shower Control</a>
+      <a href="#stats" class="nav-link">Statistics</a>
+      <a href="#alerts" class="nav-link">Alerts</a>
+      <a href="#reports" class="nav-link">Reports</a>
+      <a id="btn-logout" class="nav-link danger">Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <small>Logged in as <span id="user-name">—</span></small>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="search">SwineCare Dashboard</div>
+      <div class="top-actions">
+        <button id="btn-refresh" class="btn small">Refresh</button>
+      </div>
+    </header>
+
+    <section id="dash" class="container">
+      <!-- Live camera & main KPIs -->
+      <div class="grid-3">
+        <div class="card">
+          <h3>Live Camera</h3>
+          <div id="camera-wrap" class="camera">
+            <video id="live-video" controls autoplay muted playsinline style="width:100%;height:240px;background:#000"></video>
+            <div id="snapshot" class="snapshot hidden"><img alt="snapshot" /></div>
+          </div>
+        </div>
+
+        <div class="card stat">
+          <h3>Pig Count</h3>
+          <div id="stat-pigcount" class="stat-value">0</div>
+        </div>
+
+        <div class="card stat">
+          <h3>Feeder Level</h3>
+          <div id="stat-feeder" class="stat-value">--%</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Ambient Temp</h4>
+          <div id="stat-temp" class="kpi">-- °C</div>
+        </div>
+        <div class="card">
+          <h4>Humidity</h4>
+          <div id="stat-hum" class="kpi">-- %</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>Pig Body Temperatures</h4>
+        <div id="pig-temps" class="list"></div>
+      </div>
+    </section>
+
+    <!-- Pigs management -->
+    <section id="pigs" class="container hidden">
+      <div class="card">
+        <div class="row between">
+          <h3>Registered Pigs</h3>
+          <button id="btn-add-pig" class="btn">Add Pig</button>
+        </div>
+        <div id="pig-list" class="table"></div>
+      </div>
+
+      <!-- Add pig modal (simple prompt based) -->
+    </section>
+
+    <!-- Scheduler -->
+    <section id="scheduler" class="container hidden">
+      <div class="card">
+        <h3>Feeding Scheduler</h3>
+        <div id="schedule-list" class="list"></div>
+        <div class="row">
+          <input id="new-schedule-time" type="time" />
+          <button id="btn-add-schedule" class="btn">Add</button>
+          <button id="btn-save-schedule" class="btn primary">Save</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shower control -->
+    <section id="shower" class="container hidden">
+      <div class="card">
+        <h3>Shower Control (Scheduler)</h3>
+        <div id="shower-list" class="list"></div>
+        <div class="row">
+          <input id="new-shower-time" type="time" />
+          <button id="btn-add-shower" class="btn">Add</button>
+          <button id="btn-save-shower" class="btn primary">Save</button>
+        </div>
+        <div class="row" style="margin-top:12px;">
+          <button id="btn-shower-now" class="btn primary">Start Shower Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section id="stats" class="container hidden">
+      <div class="card">
+        <h3>Data & Statistics</h3>
+        <div class="row">
+          <label>From <input id="from-date" type="datetime-local" /></label>
+          <label>To <input id="to-date" type="datetime-local" /></label>
+          <button id="btn-filter" class="btn">Filter</button>
+          <button id="btn-export-pdf" class="btn primary">Export PDF</button>
+        </div>
+
+        <div style="margin-top:12px;">
+          <canvas id="chart-temp" height="130"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts -->
+    <section id="alerts" class="container hidden">
+      <div class="card">
+        <h3>Alerts</h3>
+        <div id="alerts-list" class="list"></div>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="reports" class="container hidden">
+      <div class="card">
+        <h3>Reports</h3>
+        <div class="list">
+          <button id="btn-generate-report" class="btn primary">Generate Summary Report (PDF)</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
+
+  <script>
+    // Firebase init (same config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAKTPpU7RsfqIrOrp9o98JnCL-RbUVWNs",
+      authDomain: "capstone-996a3.firebaseapp.com",
+      projectId: "capstone-996a3",
+      storageBucket: "capstone-996a3.firebasestorage.app",
+      messagingSenderId: "297091452987",
+      appId: "1:297091452987:web:a68ccf7b53b6b69d80cc1e",
+      databaseURL: "https://capstone-996a3-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

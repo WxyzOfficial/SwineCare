@@ -1,0 +1,223 @@
+/* ==============================
+   SwineCare Auth Styles (auth.css)
+   ============================== */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --pink-main: #ff4f81;        /* Primary swine pink */
+  --pink-light: #ff99b9;       /* Light pink accent */
+  --pink-dark: #cc3a64;        /* Darker pink */
+  --white: #ffffff;
+  --gray-light: #f7f7f9;
+  --gray-mid: #ccc;
+  --gray-dark: #444;
+  --shadow: rgba(0, 0, 0, 0.15);
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--gray-dark);
+  overflow: hidden;
+  position: relative;
+}
+
+/* 🔹 Blurred Background Image */
+body.auth-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("bg.png") no-repeat center center/cover;
+  filter: blur(12px) brightness(0.8);
+  z-index: -2;
+}
+
+/* 🔹 Gradient overlay to make text visible */
+body.auth-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 79, 129, 0.45), rgba(204, 58, 100, 0.45));
+  z-index: -1;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  animation: fadeIn 0.6s ease;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 24px;
+  color: var(--white);
+}
+.brand h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.brand .sub {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 8px 25px var(--shadow);
+  transition: all 0.3s ease;
+}
+.auth-card:hover {
+  transform: translateY(-2px);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.tab {
+  flex: 1;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: var(--radius);
+  color: var(--white);
+}
+.tab.active {
+  background: var(--pink-light);
+  color: var(--gray-dark);
+}
+
+.form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-light);
+  outline: none;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+  transition: 0.3s;
+}
+.form input:focus {
+  border-color: var(--pink-main);
+  box-shadow: 0 0 6px rgba(255, 79, 129, 0.5);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 5px 0 6px;
+  font-size: 0.75rem;
+  color: var(--white);
+}
+.link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--pink-light);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+.link:hover {
+  color: var(--white);
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+.btn.primary {
+  background: var(--pink-main);
+  color: var(--white);
+  box-shadow: 0 4px 15px rgba(255, 79, 129, 0.4);
+}
+.btn.primary:hover {
+  background: var(--pink-dark);
+}
+.btn.ghost {
+  background: var(--white);
+  color: var(--pink-main);
+  border: 2px solid var(--pink-main);
+}
+.btn.ghost:hover {
+  background: var(--pink-light);
+  color: var(--gray-dark);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 18px 0;
+  font-size: 0.85rem;
+  color: var(--white);
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--white);
+  opacity: 0.4;
+  margin: 0 8px;
+}
+
+.msg {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--white);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--white);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Hide by default */
+.hidden { display: none; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

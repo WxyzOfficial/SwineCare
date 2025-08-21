@@ -1,0 +1,18 @@
+{
+  "sensors": {
+    "ambient": { "sensorId": "AMB001", "temperature": 28.7, "humidity": 71 },
+    "pigs": {
+      "PIG001": { "sensorId": "TEMP001", "bodyTemp": 39.5, "lastUpdated": "2025-08-17T12:00:00Z" },
+      "PIG002": { "sensorId": "TEMP002", "bodyTemp": 40.2, "lastUpdated": "2025-08-17T12:01:00Z" }
+    }
+  },
+  "feeder": { "sensorId": "FEED001", "level": 75, "lastFeed": "2025-08-17T10:00:00Z", "nextFeed": "2025-08-17T14:00:00Z" },
+  "scheduler": { "times": ["06:30","12:00","17:30"] },
+  "showerScheduler": { "times": ["07:00","18:00"] },
+  "alerts": {
+    "1723887600000": { "type": "high_pig_temp", "message": "Pig PIG002 temp 40.2°C", "sensorId":"TEMP002", "timestamp":"2025-08-17T12:01:05Z", "resolved": false }
+  },
+  "cameras": {
+    "defaultCam": { "cameraId":"CAM001", "type":"ESP32-CAM", "streamUrl":"http://192.168.1.45/stream", "snapshotUrl":"http://192.168.1.45/capture" }
+  }
+}

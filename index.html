@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SwineCare — Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-container">
+    <div class="brand">
+      <h1>SwineCare</h1>
+      <p class="sub">Realtime Swine Health & Automatic Feeding — Camarubo-an</p>
+    </div>
+
+    <div class="card auth-card">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button id="tab-login" class="tab active">Login</button>
+        <button id="tab-register" class="tab">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="form">
+        <input id="login-email" type="email" placeholder="Email" required />
+        <input id="login-pass" type="password" placeholder="Password" required />
+        <div class="row between">
+          <button id="forgot-pw" type="button" class="link">Forgot password?</button>
+        </div>
+        <button id="btn-login" class="btn primary">Login</button>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-form" class="form hidden">
+        <input id="reg-name" type="text" placeholder="Full name" required />
+        <input id="reg-email" type="email" placeholder="Email" required />
+        <input id="reg-pass" type="password" placeholder="Password (min 6)" required />
+        <div class="row between">
+          <small>By registering you accept the terms</small>
+        </div>
+        <button id="btn-register" class="btn primary">Create Account</button>
+      </div>
+
+      <!-- Google Sign In -->
+      <div class="row center">
+        <button id="btn-google" class="btn secondary">Sign in with Google</button>
+      </div>
+
+      <!-- Auth Messages -->
+      <div id="auth-msg" class="msg"></div>
+    </div>
+
+    <footer class="auth-footer">
+      <small>Built for Brgy. Camarubo-an Jiabong Samar, Philippines</small>
+    </footer>
+  </main>
+
+  <!-- Firebase JS SDKs (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
+
+  <script>
+    // Firebase init (use config provided)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAKTPpU7RsfqIrOrp9o98JnCL-RbUVWNs",
+      authDomain: "capstone-996a3.firebaseapp.com",
+      projectId: "capstone-996a3",
+      storageBucket: "capstone-996a3.firebasestorage.app",
+      messagingSenderId: "297091452987",
+      appId: "1:297091452987:web:a68ccf7b53b6b69d80cc1e",
+      databaseURL: "https://capstone-996a3-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="auth.js"></script>
+</body>
+</html>
